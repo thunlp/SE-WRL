@@ -602,6 +602,7 @@ void *TrainModelThread(void *id) {
 
   real *attention = (real *)calloc(layer1_size, sizeof(real));
   real *attention_syn = (real *)calloc(layer1_size, sizeof(real));
+  real *attention_avg = (real *)calloc(layer1_size, sizeof(real));
   real *_exp = (real *)calloc(223, sizeof(real));
   real *mult_part = (real *)calloc(layer1_size, sizeof(real));
   real *mult_part2 = (real *)calloc(layer1_size, sizeof(real));
@@ -711,6 +712,7 @@ void *TrainModelThread(void *id) {
         else {
           real temp_total = 0;
           for (p = 0; p < layer1_size; ++p) attention[p] = 0;
+          for (p = 0; p < layer1_size; ++p) attention_avg[p] = 0;
           real min_exp = 10000000000000;
           for (p = 0; p < syn0[target].num; ++p) {
             // calc the average of sememe embeddings for each sense
@@ -748,6 +750,7 @@ void *TrainModelThread(void *id) {
             _exp[p] = _exp[p] / temp_total;
             for (q = 0; q < layer1_size; ++q) {
               attention[q] += _exp[p] * syn0[target].mult_sense_value[p * layer1_size + q];
+              attention_avg[q] += _exp[p] * avg_meaning[p * layer1_size + q];
             }
           }
           total = temp_total;
@@ -796,7 +799,7 @@ void *TrainModelThread(void *id) {
           for (p = 0; p < syn0[target].num; ++p) {
             real *temp_mult = &(syn0[target].mult_sense_value[p * layer1_size]);
             for (c = 0; c < layer1_size; ++c)
-              mult_part[c] += _exp[p] * avg_meaning[p * layer1_size + c] * (temp_mult[c] - attention[c]);
+              mult_part[c] += _exp[p] * temp_mult[c] * (avg_meaning[p * layer1_size + c] - attention_avg[c]);
           }
           for (p = 0; p < layer1_size; ++p)
             mult_part[p] *= g * syn1neg[p + l1] * cnt;

@@ -673,6 +673,7 @@ void *TrainModelThread(void *id) {
       int mm, nn;
       int p, q;
       if (syn0[last_word].num > 1) {
+      	real divide_part = 1.0 / (syn0[last_word].meaning_word_cnt[0]);
         for (p = 0; p < syn0[last_word].num; ++p) {
           int begin = p * layer1_size;
           for (mm = 0; mm < layer1_size; ++mm) arr[begin + mm] = 0;
@@ -682,6 +683,10 @@ void *TrainModelThread(void *id) {
               arr[begin + nn] += temp[nn];
             }
           }
+          if (p > 0)
+              divide_part = 1.0 / (syn0[last_word].meaning_word_cnt[p] - syn0[last_word].meaning_word_cnt[p - 1]);
+           for (nn = 0; nn < layer1_size; ++nn)
+              arr[begin + nn] *= divide_part;
         }
       }
       else {
@@ -709,7 +714,7 @@ void *TrainModelThread(void *id) {
         else {
           real temp_total = 0;
           for (p = 0; p < layer1_size; ++p) attention[p] = 0;
-          real min_exp = 10000000000000;
+          real min_exp = 100000000000;
           for (p = 0; p < syn0[last_word].num; ++p) { // calc the weight for each sense
             _exp[p] = vectorDot(&arr[p * layer1_size], &syn1neg[l2], layer1_size);
             if (_exp[p] < min_exp)
@@ -751,17 +756,25 @@ void *TrainModelThread(void *id) {
         else {
         	for (p = 0; p < layer1_size; ++p)
         		grad_syn1neg[p] = 0.0;
+          real divide_part = 1.0 / (syn0[last_word].meaning_word_cnt[0]);
           for (p = 0; p < syn0[last_word].num; ++p) {
-          	for (q = 0; q < layer1_size; ++q)
+          	for (q = 0; q < layer1_size; ++q) {
           		mult_part[q] = 0;
-          	for (q = 0; q < syn0[last_word].num; ++q) {
-          		if (q == p) continue;
-          		for (c = 0; c < layer1_size; ++c)
-          			mult_part[c] += (mult_sense_value[p * layer1_size + c] - mult_sense_value[q * layer1_size + c]) * _exp[q];
+          	}
+          	for (q = 0; q < syn0[last_word].num; ++q){
+          		if (p == q)
+          			continue;
+          		for (c = 0; c < layer1_size; ++c) {
+          			mult_part[c] += (arr[p * layer1_size + c] - arr[q * layer1_size + c]) * _exp[q];
+          		}
           	}
           	for (q = 0; q < layer1_size; ++q) {
-          		grad_syn1neg[q] += g * _exp[p] * arr[p * layer1_size + q] * mult_part[q];
-          		mult_part[q] = mult_part[q] * _exp[p] * syn1neg[l2 + q] * neu1e[q];
+          		grad_syn1neg[q] += mult_sense_value[p * layer1_size + q] * _exp[p] * mult_part[q];
+          	}
+          	if (p > 0)
+                divide_part = 1.0 / (syn0[last_word].meaning_word_cnt[p] - syn0[last_word].meaning_word_cnt[p-1]);
+          	for (q = 0; q < layer1_size; ++q) {
+          		mult_part[q] = (mult_sense_value[p * layer1_size + q] - attention[q]) * _exp[p] * syn1neg[l2 + q] * divide_part * neu1e[q];
           	}
             for (q = (p == 0 ? 0 : syn0[last_word].meaning_word_cnt[p - 1]); q < syn0[last_word].meaning_word_cnt[p]; ++q) {
               real *temp = &(meaning_syn[syn0[last_word].meaning_word_rank[q] * layer1_size]);
@@ -771,7 +784,7 @@ void *TrainModelThread(void *id) {
             }
           }
           for (p = 0; p < layer1_size; ++p)
-          	syn1neg[p + l2] += grad_syn1neg[p];
+          	syn1neg[p + l2] += grad_syn1neg[p] * neu1e[p];
           for (p = 0; p < syn0[last_word].num; ++p) {
             real *temp = &(syn0[last_word].mult_sense_value[p * layer1_size]);
             for (q = 0; q < layer1_size; ++q)
