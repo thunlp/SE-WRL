@@ -45,8 +45,8 @@ I'm sorry that we found bugs in programs. We have revised them. The new experime
 | Skip-gram |    58.5     |    63.3     |
 |    SSA    |    58.9     |  **64.0**   |
 |    MST    |    59.2     |    62.8     |
-|    SAC    |    58.1     |    60.5     |
-|    SAT    |  **60.7**   |    62.5     |
+|    SAC    |    59.1     |    61.0     |
+|    SAT    |  **61.2**   |    63.3     |
 
 #### Word Analogy
 
@@ -57,6 +57,6 @@ I'm sorry that we found bugs in programs. We have revised them. The new experime
 | Skip-gram |   66.8   |   93.7   |     76.8     |   73.4   |
 |    SSA    |   62.3   |   93.7   |     81.6     |   71.9   |
 |    MST    |   65.7   |   95.4   |     82.7     |   74.5   |
-|    SAC    |   76.5   |   97.7   |     80.1     |   80.7   |
-|    SAT    | **82.1** | **98.9** |     80.1     | **84.3** |
+|    SAC    |   79.2   |   97.7   |     75.0     |   81.0   |
+|    SAT    | **82.6** | **98.9** |     80.1     | **84.5** |
 
