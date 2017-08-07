@@ -34,7 +34,7 @@ The annotation information is for the four files ``SSA.c/MST.c/SAC.c/SAT.c``. An
 
 ## Revise
 
-I'm sorry that we found bugs in programs. We have revised them. The new experiment results will be released on GitHub and new version of paper will be given. 
+I'm sorry that we found bugs in programs. We have revised them. The new experiment results are released on GitHub and [new version of paper](http://thunlp.org/~lzy/publications/acl2017_sememe.pdf) is given. 
 
 #### Word Similarity
 

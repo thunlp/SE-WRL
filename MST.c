@@ -712,6 +712,7 @@ void *TrainModelThread(void *id) {
         }
         else {
           real max_exp = -1000000000000;
+          real min_exp = 1000000000000;
           real max_p = -1;
           for (p = 0; p < syn0[target].num; ++p) {
             // calc the average embedding of several sememes for each sense
@@ -738,8 +739,15 @@ void *TrainModelThread(void *id) {
               max_exp = _exp[p]; 
               max_p = p;
             }
+            if (_exp[p] < min_exp) {
+              min_exp = _exp[p];
+            }
           }
-          total = 1.0;
+          real gap_exp = max_exp - min_exp;
+          if (gap_exp >= 3.999) {
+            gap_exp = 3.999;
+          }
+          total = pre_exp[(int)(gap_exp * 250.0)];
           // use the sense with max weight to represent a word
           for (p = 0; p < syn0[target].num; ++p) {
             if (p != max_p) {
@@ -783,7 +791,7 @@ void *TrainModelThread(void *id) {
               avg_num = 1.0 / (real)(syn0[target].meaning_word_cnt[p] - syn0[target].meaning_word_cnt[p - 1]);
             real *temp_mult = &(syn0[target].mult_sense_value[p * layer1_size]);
             for (c = 0; c < layer1_size; ++c) {
-              mult_part2[c] = mult_part[c] * (temp_mult[c] - attention[c]) * avg_num;
+              mult_part2[c] = mult_part[c] * temp_mult[c] * avg_num;
             }
             for (q = (p == 0 ? 0 : syn0[target].meaning_word_cnt[p - 1]); q < syn0[target].meaning_word_cnt[p]; ++q) {
               real *temp = &(meaning_syn[syn0[target].meaning_word_rank[q] * layer1_size]);
@@ -794,13 +802,12 @@ void *TrainModelThread(void *id) {
             break;
           }
 
+          for (c = 0; c < layer1_size; ++c)
+              mult_part[c] = 0;
           for (p = 0; p < syn0[target].num; ++p) {
-            if (_exp[p] < 0.1)
-              continue;
             real *temp_mult = &(syn0[target].mult_sense_value[p * layer1_size]);
             for (c = 0; c < layer1_size; ++c)
-              mult_part[c] = avg_meaning[p * layer1_size + c] * (temp_mult[c] - attention[c]);
-            break;
+              mult_part[c] += avg_meaning[p * layer1_size + c] * temp_mult[c];
           }
           for (p = 0; p < layer1_size; ++p)
             mult_part[p] *= g * syn1neg[p + l1] * cnt;
