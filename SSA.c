@@ -65,6 +65,24 @@ struct sense { // record information of several senses of a word
   int *meaning_word_rank; // sememe ranks for each sense
 };
 
+  void init(struct sense *s, int n, int l, int *rank, int *cnt) {
+    int i;
+    s->num = n;
+    s->mult_sense_value = (real *)calloc(n * l, sizeof(real));
+    for (i = 0; i < n * l; ++i) {
+      next_random = next_random * (unsigned long long)25214903917 + 11;
+      s->mult_sense_value[i] = (((next_random & 0xFFFF) / (real)65536) - 0.5) / l;
+    }
+    if (n > 1) {
+      s->meaning_word_cnt = (int *)calloc(n, sizeof(int));
+      for (i = 0; i < n; ++i)
+        s->meaning_word_cnt[i] = cnt[i];
+      s->meaning_word_rank = (int *)calloc(s->meaning_word_cnt[n - 1], sizeof(int));
+      for (i = 0; i < s->meaning_word_cnt[n - 1]; ++i)
+        s->meaning_word_rank[i] = rank[i];
+    }
+  }
+
 char train_file[MAX_STRING], output_file[MAX_STRING], checkpoint[MAX_STRING]; 
 char save_vocab_file[MAX_STRING], read_vocab_file[MAX_STRING], read_meaning_file[MAX_STRING], read_sense_file[MAX_STRING];
 struct vocab_word *vocab;
