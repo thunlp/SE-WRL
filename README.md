@@ -20,7 +20,9 @@ Before training, you should replace ``word2vec/word2vec.c`` with one of the four
 
 ``HowNet.txt`` is an Chinese knowledge base with annotated word-sense-sememe information.
 
-``Sougo-T(sample).txt`` is a sample dataset extracted from ``Sougo-T``.
+``Sogou-T(sample).txt`` is a sample dataset extracted from ``Sogou-T``.
+
+Complete training dataset ``Clean-SogouT`` is released in [https://pan.baidu.com/s/1kXgkyJ9](https://pan.baidu.com/s/1kXgkyJ9)(password: f2ul).
 
 ## Evaluation Set
 
