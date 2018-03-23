@@ -1,5 +1,5 @@
 # SE-WRL
-The code for **Improve word representation learning with sememes**(ACL2017).
+This the the lab code for **Improved Word Representation Learning with Sememes** (ACL2017). Sememes are minimum semantic units of word meanings, and the meaning of each word sense is typically composed by several sememes. Since sememes are not explicit for each word, people manually annotate word sememes and form linguistic common-sense knowledge bases. In this paper, we present that, word sememe information can improve word representation learning (WRL), which maps words into a low-dimensional semantic space and serves as a fundamental step for many NLP tasks. The key idea is to utilize word sememes to capture exact meanings of a word within specific contexts accurately. More specifically, we follow the framework of Skip-gram and present three sememe-encoded models to learn representations of sememes, senses and words, where we apply the attention scheme to detect word senses in various contexts. We conduct experiments on two tasks including word similarity and word analogy, and our models significantly outperform baselines. The results indicate that WRL can benefit from sememes via the attention scheme, and also confirm our models being capable of correctly modeling sememe information.
 
 ## How to Run
 
@@ -34,9 +34,9 @@ Complete training dataset ``Clean-SogouT`` is released in [https://pan.baidu.com
 
 The annotation information is for the four files ``SSA.c/MST.c/SAC.c/SAT.c``. Annotation of the common code is only included in file ``SSA.c``.
 
-## Revise
+## Errata
 
-I'm sorry that we found bugs in programs. We have revised them. The new experiment results are released on GitHub and [new version of paper](http://thunlp.org/~lzy/publications/acl2017_sememe.pdf) is given. 
+We are sorry that we have found some bugs in our algorithm implementation, and have fixed them in the github version. The new experiment results are released on GitHub as follows and we have also updated the [paper] (http://thunlp.org/~lzy/publications/acl2017_sememe.pdf). The new results still confirm the general idea and conclusion of our paper.
 
 #### Word Similarity
 
