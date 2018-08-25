@@ -480,7 +480,7 @@ void ReadVocab() {
     if (feof(fin)) break;
     a = AddWordToVocab(word);
     fscanf(fin, "%lld%c", &vocab[a].cn, &c);
-    if (vocab[a].cn < 50)
+    if (vocab[a].cn < min_count)
     	break;
     i++;
   }
