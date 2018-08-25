@@ -113,7 +113,7 @@ char train_file[MAX_STRING], output_file[MAX_STRING], checkpoint[MAX_STRING];
 char save_vocab_file[MAX_STRING], read_vocab_file[MAX_STRING], read_meaning_file[MAX_STRING], read_sense_file[MAX_STRING];
 struct vocab_word *vocab;
 struct meaning_word *meaning;
-int binary = 0, cbow = 1, debug_mode = 2, window = 5, min_count = 5, num_threads = 12, min_reduce = 1;
+int binary = 0, cbow = 1, debug_mode = 2, window = 5, min_count = 50, num_threads = 12, min_reduce = 1;
 int *vocab_hash, *meaning_hash;
 long long vocab_max_size = 1000, vocab_size = 0, layer1_size = 100;
 long long meaning_size = 0;

@@ -9,7 +9,7 @@ Using the following command to train word-sense-sememe embeddings.
 cp SSA.c[SSA.c/MST.c/SAC.c/SAT.c] word2vec/word2vec.c
 cd word2vec
 make
-./word2vec -train TrainFile -output vectors.bin -cbow 0 -size 200 -window 8 -negative 25 -hs 0 -sample 1e-4 -threads 30 -binary 1 -iter 1 -read-vocab VocabFile -read-meaning SememeFile -read-sense Word_Sense_Sememe_File -min-count 1 -alpha 0.025
+./word2vec -train TrainFile -output vectors.bin -cbow 0 -size 200 -window 8 -negative 25 -hs 0 -sample 1e-4 -threads 30 -binary 1 -iter 1 -read-vocab VocabFile -read-meaning SememeFile -read-sense Word_Sense_Sememe_File -min-count 50 -alpha 0.025
 ```
 
 ``TrainFile`` is train data set. The following three files can be found in directory ``datasets``. ``VocabFile`` is the word vocabulary file, and ``SememeFile`` is the sememe vocabulary file. ``Word_Sense_Sememe_File`` is a file recording group information of word-sense-sememe.
