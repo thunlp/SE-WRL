@@ -30,8 +30,6 @@
 const int vocab_hash_size = 10000000;  // Maximum 30 * 0.7 = 21M words in the vocabulary
 const int meaning_hash_size = 10000000;  // Maximum 30 * 0.7 = 21M words in the vocabulary
 
-// Birthday of an important girl. 
-// Thanks to such a fortunate random seed, I get the satisfying results.
 unsigned long long next_random = 19960322; 
 
 typedef float real;                    // Precision of float numbers
@@ -979,7 +977,7 @@ int main(int argc, char **argv) {
   if ((i = ArgPos((char *)"-hs", argc, argv)) > 0) hs = atoi(argv[i + 1]);
   if ((i = ArgPos((char *)"-negative", argc, argv)) > 0) negative = atoi(argv[i + 1]);
   if ((i = ArgPos((char *)"-threads", argc, argv)) > 0) num_threads = atoi(argv[i + 1]);
-  if ((i = ArgPos((char *)"-iter", argc, argv)) > 0) iter = atoi(argv[i + 1]); iter = 3; // better iteration num
+  if ((i = ArgPos((char *)"-iter", argc, argv)) > 0) iter = atoi(argv[i + 1]);// iter = 3; // better iteration num
   if ((i = ArgPos((char *)"-min-count", argc, argv)) > 0) min_count = atoi(argv[i + 1]);
   if ((i = ArgPos((char *)"-classes", argc, argv)) > 0) classes = atoi(argv[i + 1]);
   vocab = (struct vocab_word *)calloc(vocab_max_size, sizeof(struct vocab_word));

@@ -30,8 +30,6 @@
 const int vocab_hash_size = 10000000;  // Maximum 30 * 0.7 = 21M words in the vocabulary
 const int meaning_hash_size = 10000000;  // Maximum 30 * 0.7 = 21M words in the vocabulary
 
-// Birthday of an important girl. 
-// Thanks to such a fortunate random seed, I get the satisfying results.
 unsigned long long next_random = 19960322; 
 
 typedef float real;                    // Precision of float numbers
