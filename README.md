@@ -1,6 +1,12 @@
 # SE-WRL
 This the the lab code for the ACL 2017 paper [**Improved Word Representation Learning with Sememes**](http://thunlp.org/~lzy/publications/acl2017_sememe.pdf). Sememes are minimum semantic units of word meanings, and the meaning of each word sense is typically composed by several sememes. Since sememes are not explicit for each word, people manually annotate word sememes and form linguistic common-sense knowledge bases. In this paper, we present that, word sememe information can improve word representation learning (WRL), which maps words into a low-dimensional semantic space and serves as a fundamental step for many NLP tasks. The key idea is to utilize word sememes to capture exact meanings of a word within specific contexts accurately. More specifically, we follow the framework of Skip-gram and present three sememe-encoded models to learn representations of sememes, senses and words, where we apply the attention scheme to detect word senses in various contexts. We conduct experiments on two tasks including word similarity and word analogy, and our models significantly outperform baselines. The results indicate that WRL can benefit from sememes via the attention scheme, and also confirm our models being capable of correctly modeling sememe information.
 
+## New Version
+
+New version of SAT is released: https://github.com/thunlp/SE-WRL-SAT
+
+Other methods are coming soon.
+
 ## How to Run
 
 Using the following command to train word-sense-sememe embeddings.
@@ -9,7 +15,7 @@ Using the following command to train word-sense-sememe embeddings.
 cp SSA.c[SSA.c/MST.c/SAC.c/SAT.c] word2vec/word2vec.c
 cd word2vec
 make
-./word2vec -train TrainFile -output vectors.bin -cbow 0 -size 200 -window 8 -negative 25 -hs 0 -sample 1e-4 -threads 30 -binary 1 -iter 1 -read-vocab VocabFile -read-meaning SememeFile -read-sense Word_Sense_Sememe_File -min-count 50 -alpha 0.025
+./word2vec -train TrainFile -output vectors.bin -cbow 0 -size 200 -window 8 -negative 25 -hs 0 -sample 1e-4 -threads 30 -binary 1 -iter 3 -read-vocab VocabFile -read-meaning SememeFile -read-sense Word_Sense_Sememe_File -min-count 50 -alpha 0.025
 ```
 
 ``TrainFile`` is train data set. The following three files can be found in directory ``datasets``. ``VocabFile`` is the word vocabulary file, and ``SememeFile`` is the sememe vocabulary file. ``Word_Sense_Sememe_File`` is a file recording group information of word-sense-sememe.
